@@ -6,6 +6,8 @@
 
 package tubes.sister;
 
+import tubes.sister.View.View;
+import tubes.sister.controller.Controller;
 /**
  *
  * @author Mu'ti C Putro
@@ -17,6 +19,8 @@ public class Driver {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        View v = new View();
+        Controller c = new Controller(v);
         
     }
     

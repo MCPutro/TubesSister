@@ -23,7 +23,8 @@ public class dataConnect {
     public void connect(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/chatting_tcp_low", "root", "");
+//            conn = DriverManager.getConnection("jdbc:mysql://localhost/chatting_tcp_low", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://www.db4free.net:3306/dbbuku","putro","katasandibaru");
             
         }
         catch(Throwable ex){

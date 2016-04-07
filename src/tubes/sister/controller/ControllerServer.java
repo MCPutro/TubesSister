@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package tubes.sister.controller;
 
 import java.awt.event.ActionEvent;
@@ -22,12 +21,12 @@ import tubes.sister.View.View;
  *
  * @author Mu'ti C Putro
  */
-public class ControllerServer implements ActionListener,Runnable{
+public class ControllerServer implements ActionListener, Runnable {
 
     private ServerSocket ss;
     private Socket client;
 //    private final BufferedReader chat = new BufferedReader(new InputStreamReader(System.in));
-    
+
     private final Server server;
     private final int port;
     private Thread t;
@@ -37,42 +36,43 @@ public class ControllerServer implements ActionListener,Runnable{
         this.port = port;
         this.server.setVisible(true);
         this.server.getReplayBox().addActionListener(this);
-        
-        
+
         this.t = new Thread(this);
         t.start();
     }
-    
-    private void close(){
-        if(t.isAlive()){
+
+    private void close() {
+        if (t.isAlive()) {
             t.interrupt();
         }
-        
+
         JOptionPane.showMessageDialog(null, "Disconnect !");
         this.server.setVisible(false);
         Controller c = new Controller(new View());
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {//input 
         Object o = e.getSource();
-        if(o.equals(this.server.getReplayBox())){
+        if (o.equals(this.server.getReplayBox())) {
             try {
-                PrintWriter output = new PrintWriter(client.getOutputStream(),true);                
+                PrintWriter output = new PrintWriter(client.getOutputStream(), true);
                 String pes = this.server.getReplayBox().getText();
                 output.println(pes);
                 server.append(pes);
                 this.server.getReplayBox().setText("");
-                if(pes.equalsIgnoreCase("exit")){
+                if (pes.equalsIgnoreCase("exit")) {
                     client.close();
                     ss.close();
                     close();
-                    
+
                 }
             } catch (Exception ex) {
             }
         }
     }
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
 
     @Override
     public void run() {
@@ -82,29 +82,25 @@ public class ControllerServer implements ActionListener,Runnable{
             this.client = ss.accept();
 //            System.out.println("client konek");
             JOptionPane.showMessageDialog(null, "client konek");
-                    
+
             Scanner input = new Scanner(client.getInputStream());
             String replay = "";
             try {
-                do {                
+                do {
                     replay = input.nextLine();
 //                    System.out.println("pesan masuk : "+replay);
-                    server.append("\n-----------------\n"+replay+"\n-----------------\n");
+                    server.append(ANSI_RED + "\n-----------------\n"+replay + "\n-----------------\n" + ANSI_RESET
+                  );
                 } while (!"exit".equalsIgnoreCase(replay));
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             client.close();
             ss.close();
             close();
-            
-            
-            
+
         } catch (Throwable e) {
             e.printStackTrace();
         }
     }
 
-    
-    
-    
-    
 }

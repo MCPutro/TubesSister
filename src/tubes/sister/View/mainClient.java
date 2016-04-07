@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Mu'ti C Putro
+ * @author Niyung
  */
 public class mainClient {
     public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class mainClient {
             
             Scanner input = new Scanner(client.getInputStream());
 //            PrintWriter output = new PrintWriter(client.getOutputStream(),true);
-            System.out.println("client konek");
+            System.out.println("client terhubung");
             
 //            Scanner chat = new Scanner(System.in);
             String replay, pesan;

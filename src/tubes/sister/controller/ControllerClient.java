@@ -8,14 +8,14 @@ package tubes.sister.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import tubes.sister.View.Client;
-import tubes.sister.View.View;
 
 /**
  *
@@ -28,10 +28,12 @@ public class ControllerClient implements ActionListener,Runnable{
     
     private final Client clientView;
     private final String address;
-    private final int port;
+    private final int port; 
     
     private Thread t;
 
+    private dataConnect dc;
+    
     public ControllerClient(Client clientView, String address, int port) {
         this.clientView = clientView;
         this.address = address;
@@ -40,6 +42,8 @@ public class ControllerClient implements ActionListener,Runnable{
         this.clientView.setVisible(true);
         this.clientView.getReplayBox().addActionListener(this);
         
+//        dc = new dataConnect();
+//        dc.connect();
         
         this.t = new Thread(this);
         t.start();
@@ -55,6 +59,12 @@ public class ControllerClient implements ActionListener,Runnable{
                 output.println(pes);
                 clientView.append(pes);
                 this.clientView.getReplayBox().setText("");
+//                String query = "INSERT INTO `tubesSister`(`pengirim`, `penerima`, `tanggal`, `pesan`) VALUES ("
+//                        + "'Client',"
+//                        + "'Server',"
+//                        + "'"+getTanggal()+"',"
+//                        + "'"+pes+"');";
+//                dc.doQuery(query);
                 if(pes.equalsIgnoreCase("exit")){
                     client.close();
                     close();
@@ -68,9 +78,8 @@ public class ControllerClient implements ActionListener,Runnable{
         if(t.isAlive()){
             t.interrupt();
         }
+        dc.close();
         JOptionPane.showMessageDialog(null, "Disconnect !");
-        this.clientView.setVisible(false);
-        System.exit(1);
     }
     
     @Override
@@ -82,13 +91,25 @@ public class ControllerClient implements ActionListener,Runnable{
             String replay, pesan;
             do {                
                 replay = input.nextLine();
-                System.out.println("pesan masuk : "+replay);
-                this.clientView.append("\n-----------------\n"+replay+"\n-----------------\n");
+                System.out.println("from  : "+replay);
+                String s = "---------------------------------------------------------------------------------------------------\n"
+                        + "From : Server\n"
+                        + getTanggal()
+                        + "\npesan : \n"
+                        + replay+"\n---------------------------------------------------------------------------------------------------";
+//                this.clientView.append("\n-----------------\n"+replay+"\n-----------------\n");
+                this.clientView.append(s);
             } while (!"exit".equalsIgnoreCase(replay));
             client.close();
             this.close();
         } catch (Exception e) {
         }
+    }
+    
+    private String getTanggal() {  
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");  
+        Date date = new Date();  
+        return dateFormat.format(date);  
     }
     
 }

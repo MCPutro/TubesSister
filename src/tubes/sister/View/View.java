@@ -24,7 +24,7 @@ public class View extends javax.swing.JFrame {
      */
     public View() {
         initComponents();
-       
+        setLocationRelativeTo(null);
     }
 
     public JComboBox getStatus() {

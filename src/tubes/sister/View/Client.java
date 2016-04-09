@@ -20,6 +20,7 @@ public class Client extends javax.swing.JFrame {
      */
     public Client() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     public JTextField getReplayBox() {
@@ -55,6 +56,7 @@ public class Client extends javax.swing.JFrame {
         showMessage.setColumns(20);
         showMessage.setRows(5);
         showMessage.setFocusable(false);
+        showMessage.setMargin(new java.awt.Insets(2, 5, 2, 2));
         jScrollPane1.setViewportView(showMessage);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

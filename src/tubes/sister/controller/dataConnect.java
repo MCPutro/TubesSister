@@ -7,6 +7,8 @@
 package tubes.sister.controller;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -54,4 +56,11 @@ public class dataConnect {
         }
     }
     
+    public void close(){
+        try {
+            this.conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(dataConnect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

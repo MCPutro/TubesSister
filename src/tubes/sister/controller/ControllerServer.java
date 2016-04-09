@@ -7,11 +7,12 @@ package tubes.sister.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import tubes.sister.View.Server;
@@ -61,6 +62,7 @@ public class ControllerServer implements ActionListener, Runnable {
                 output.println(pes);
                 server.append(pes);
                 this.server.getReplayBox().setText("");
+//                System.out.println(getTanggal()+" <<<<<<");
                 if (pes.equalsIgnoreCase("exit")) {
                     client.close();
                     ss.close();
@@ -71,8 +73,8 @@ public class ControllerServer implements ActionListener, Runnable {
             }
         }
     }
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
+//    public static final String ANSI_RESET = "\u001B[0m";
+//    public static final String ANSI_RED = "\u001B[31m";
 
     @Override
     public void run() {
@@ -89,8 +91,14 @@ public class ControllerServer implements ActionListener, Runnable {
                 do {
                     replay = input.nextLine();
 //                    System.out.println("pesan masuk : "+replay);
-                    server.append(ANSI_RED + "\n-----------------\n"+replay + "\n-----------------\n" + ANSI_RESET
-                  );
+                    String s = "---------------------------------------------------------------------------------------------------\n"
+                            + "from : Client\n" 
+                            + getTanggal()
+                            + "\npesan : \n"
+                            + replay
+                            + "\n---------------------------------------------------------------------------------------------------";
+//                    server.append("\n-----------------\n"+replay + "\n-----------------\n");
+                    server.append(s);
                 } while (!"exit".equalsIgnoreCase(replay));
             } catch (Exception e) {
             }
@@ -103,4 +111,9 @@ public class ControllerServer implements ActionListener, Runnable {
         }
     }
 
+    private String getTanggal() {  
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");  
+        Date date = new Date();  
+        return dateFormat.format(date);  
+    }
 }

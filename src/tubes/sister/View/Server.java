@@ -6,8 +6,6 @@
 
 package tubes.sister.View;
 
-import java.net.ServerSocket;
-import java.net.Socket;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -24,7 +22,8 @@ public class Server extends javax.swing.JFrame {
 //    private Socket client;
     
     public Server() {
-        initComponents();        
+        initComponents();  
+        setLocationRelativeTo(null);
     }
     
     public JTextField getReplayBox() {
@@ -53,11 +52,13 @@ public class Server extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Server");
+        setMaximumSize(new java.awt.Dimension(214, 214));
 
+        showMessage.setEditable(false);
         showMessage.setColumns(20);
-        showMessage.setLineWrap(true);
         showMessage.setRows(5);
         showMessage.setFocusable(false);
+        showMessage.setMargin(new java.awt.Insets(2, 5, 2, 2));
         jScrollPane1.setViewportView(showMessage);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

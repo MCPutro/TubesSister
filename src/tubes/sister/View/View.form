@@ -182,12 +182,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" max="32767" attributes="0"/>
-                          <Component id="ipv6" max="32767" attributes="0"/>
                           <Component id="port" pref="349" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="ok" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="ip6" alignment="1" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -198,13 +198,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                      <Component id="ipv6" min="-2" pref="30" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="ip6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="port" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="ok" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="43" max="32767" attributes="0"/>
+                      <EmptySpace pref="48" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -219,11 +219,6 @@
                 <Property name="text" type="java.lang.String" value="Setup"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="ipv6">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="IPv6"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JTextField" name="port">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Port"/>
@@ -232,6 +227,15 @@
             <Component class="javax.swing.JButton" name="ok">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ok"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="ip6">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="1">
+                    <StringItem index="0" value=" - - Pilih IP Server - -"/>
+                  </StringArray>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>

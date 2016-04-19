@@ -31,8 +31,10 @@ public class ControllerServer implements ActionListener, Runnable {
     private final Server server;
     private final int port;
     private Thread t;
+    
+    private dataConnect dc;
 
-    public ControllerServer(Server server, int port) {
+    public ControllerServer(Server server, int port, dataConnect dc) {
         this.server = server;
         this.port = port;
         this.server.setVisible(true);
@@ -40,6 +42,8 @@ public class ControllerServer implements ActionListener, Runnable {
 
         this.t = new Thread(this);
         t.start();
+        
+        this.dc = dc;
     }
 
     private void close() {
@@ -48,6 +52,8 @@ public class ControllerServer implements ActionListener, Runnable {
         }
 
         JOptionPane.showMessageDialog(null, "Disconnect !");
+        String query = "UPDATE `host` SET `status`= 0 WHERE `ip` = '" + getIP.getHostAddress()+ "';";
+        dc.doQuery(query);
         this.server.setVisible(false);
         Controller c = new Controller(new View());
     }
@@ -64,9 +70,12 @@ public class ControllerServer implements ActionListener, Runnable {
                 this.server.getReplayBox().setText("");
 //                System.out.println(getTanggal()+" <<<<<<");
                 if (pes.equalsIgnoreCase("exit")) {
+//                    JOptionPane.showMessageDialog(null, "cek");
+                    dc.doQuery("");
                     client.close();
                     ss.close();
                     close();
+                    
 
                 }
             } catch (Exception ex) {

@@ -34,7 +34,7 @@ public class ControllerClient implements ActionListener,Runnable{
 
     private dataConnect dc;
     
-    public ControllerClient(Client clientView, String address, int port) {
+    public ControllerClient(Client clientView, String address, int port, dataConnect dc) {
         this.clientView = clientView;
         this.address = address;
         this.port = port;
@@ -44,6 +44,7 @@ public class ControllerClient implements ActionListener,Runnable{
         
 //        dc = new dataConnect();
 //        dc.connect();
+        this.dc = dc;
         
         this.t = new Thread(this);
         t.start();
@@ -59,12 +60,12 @@ public class ControllerClient implements ActionListener,Runnable{
                 output.println(pes);
                 clientView.append(pes);
                 this.clientView.getReplayBox().setText("");
-//                String query = "INSERT INTO `tubesSister`(`pengirim`, `penerima`, `tanggal`, `pesan`) VALUES ("
-//                        + "'Client',"
-//                        + "'Server',"
-//                        + "'"+getTanggal()+"',"
-//                        + "'"+pes+"');";
-//                dc.doQuery(query);
+                String query = "INSERT INTO `tubesSister`(`pengirim`, `penerima`, `tanggal`, `pesan`) VALUES ("
+                        + "'Client',"
+                        + "'Server',"
+                        + "'"+getTanggal()+"',"
+                        + "'"+pes+"');";
+                dc.doQuery(query);
                 if(pes.equalsIgnoreCase("exit")){
                     client.close();
                     close();
@@ -85,6 +86,7 @@ public class ControllerClient implements ActionListener,Runnable{
     @Override
     public void run() {
         try {
+            
             this.client = new Socket(this.address, this.port);
             Scanner input = new Scanner(client.getInputStream());
             System.out.println("client konek");

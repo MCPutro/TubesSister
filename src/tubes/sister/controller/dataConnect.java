@@ -26,11 +26,11 @@ public class dataConnect {
         try{
             Class.forName("com.mysql.jdbc.Driver");
 //            conn = DriverManager.getConnection("jdbc:mysql://localhost/chatting_tcp_low", "root", "");
-            conn = DriverManager.getConnection("jdbc:mysql://www.db4free.net:3306/dbbuku","putro","katasandibaru");
-            
+            conn = DriverManager.getConnection("jdbc:mysql://www.db4free.net:3306/tubessister","tubessister","tubessister");
+            System.out.println("konek");
         }
-        catch(Throwable ex){
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+        catch(ClassNotFoundException | SQLException ex){
+            ex.printStackTrace();
         }
     }
     

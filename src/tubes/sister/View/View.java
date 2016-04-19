@@ -27,6 +27,10 @@ public class View extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
+    public JComboBox getIp6() {
+        return ip6;
+    }
+
     public JComboBox getStatus() {
         return status;
     }
@@ -39,9 +43,7 @@ public class View extends javax.swing.JFrame {
         return panel;
     }
 
-    public JTextField getIpv6() {
-        return ipv6;
-    }
+    
 
     public JButton getOk() {
         return ok;
@@ -88,9 +90,9 @@ public class View extends javax.swing.JFrame {
         okeServer = new javax.swing.JButton();
         Client = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        ipv6 = new javax.swing.JTextField();
         port = new javax.swing.JTextField();
         ok = new javax.swing.JButton();
+        ip6 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,11 +176,11 @@ public class View extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Setup");
 
-        ipv6.setText("IPv6");
-
         port.setText("Port");
 
         ok.setText("Ok");
+
+        ip6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " - - Pilih IP Server - -" }));
 
         javax.swing.GroupLayout ClientLayout = new javax.swing.GroupLayout(Client);
         Client.setLayout(ClientLayout);
@@ -188,11 +190,11 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(ClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ipv6)
                     .addComponent(port, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ClientLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(ok)))
+                        .addComponent(ok))
+                    .addComponent(ip6, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         ClientLayout.setVerticalGroup(
@@ -200,13 +202,13 @@ public class View extends javax.swing.JFrame {
             .addGroup(ClientLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(13, 13, 13)
-                .addComponent(ipv6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ip6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(port, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(ok)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         panel.add(Client, "client");
@@ -263,7 +265,7 @@ public class View extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Client;
     private javax.swing.JPanel Server;
-    private javax.swing.JTextField ipv6;
+    private javax.swing.JComboBox ip6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

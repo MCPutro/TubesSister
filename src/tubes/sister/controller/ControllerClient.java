@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,6 +49,7 @@ public class ControllerClient implements ActionListener,Runnable{
         
         this.t = new Thread(this);
         t.start();
+        load();
     }
         
     @Override
@@ -65,7 +67,7 @@ public class ControllerClient implements ActionListener,Runnable{
                         + "'Server',"
                         + "'"+getTanggal()+"',"
                         + "'"+pes+"');";
-                dc.doQuery(query);
+//                dc.doQuery(query);
                 if(pes.equalsIgnoreCase("exit")){
                     client.close();
                     close();
@@ -114,4 +116,28 @@ public class ControllerClient implements ActionListener,Runnable{
         return dateFormat.format(date);  
     }
     
+    private void load() {
+        try {
+            ResultSet rs = dc.retrieveQuery("select * from tubesSister;");
+            while (rs.next()) {
+                if (rs.getString(1).equalsIgnoreCase("server")) {
+                    String s = "---------------------------------------------------------------------------------------------------\n"
+                            + "from : Server\n"
+                            + rs.getString(3)+"\n"
+                            + "pesan : \n"
+                            + rs.getString(4)+"\n"
+                            + "---------------------------------------------------------------------------------------------------\n";
+                    this.clientView.getShowMessage().append(s);
+//                    System.out.println(s);
+                }
+                else
+                {
+                    this.clientView.getShowMessage().append(rs.getString(4)+"\n");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +32,7 @@ public class ControllerServer implements ActionListener, Runnable {
     private final Server server;
     private final int port;
     private Thread t;
-    
+
     private dataConnect dc;
 
     public ControllerServer(Server server, int port, dataConnect dc) {
@@ -42,20 +43,22 @@ public class ControllerServer implements ActionListener, Runnable {
 
         this.t = new Thread(this);
         t.start();
-        
+
         this.dc = dc;
+        this.load();
     }
 
     private void close() {
         if (t.isAlive()) {
+
             t.interrupt();
+            JOptionPane.showMessageDialog(null, "Disconnect !");
+            String query = "UPDATE `host` SET `status`= 0 WHERE `ip` = '" + getIP.getHostAddress() + "';";
+            dc.doQuery(query);
+            this.server.dispose();
+            Controller c = new Controller(new View());
         }
 
-        JOptionPane.showMessageDialog(null, "Disconnect !");
-        String query = "UPDATE `host` SET `status`= 0 WHERE `ip` = '" + getIP.getHostAddress()+ "';";
-        dc.doQuery(query);
-        this.server.setVisible(false);
-        Controller c = new Controller(new View());
     }
 
     @Override
@@ -68,17 +71,22 @@ public class ControllerServer implements ActionListener, Runnable {
                 output.println(pes);
                 server.append(pes);
                 this.server.getReplayBox().setText("");
-//                System.out.println(getTanggal()+" <<<<<<");
+                String query = "INSERT INTO `tubesSister`(`pengirim`, `penerima`, `tanggal`, `pesan`) VALUES ("
+                        + "'Server',"
+                        + "'Client',"
+                        + "'" + getTanggal() + "',"
+                        + "'" + pes + "');";
+                dc.doQuery(query);
                 if (pes.equalsIgnoreCase("exit")) {
 //                    JOptionPane.showMessageDialog(null, "cek");
                     dc.doQuery("");
                     client.close();
                     ss.close();
                     close();
-                    
 
                 }
             } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }
     }
@@ -89,9 +97,7 @@ public class ControllerServer implements ActionListener, Runnable {
     public void run() {
         try {
             this.ss = new ServerSocket(port);
-//            System.out.println("sever on ");
             this.client = ss.accept();
-//            System.out.println("client konek");
             JOptionPane.showMessageDialog(null, "client konek");
 
             Scanner input = new Scanner(client.getInputStream());
@@ -101,12 +107,19 @@ public class ControllerServer implements ActionListener, Runnable {
                     replay = input.nextLine();
 //                    System.out.println("pesan masuk : "+replay);
                     String s = "---------------------------------------------------------------------------------------------------\n"
-                            + "from : Client\n" 
+                            + "from : Client\n"
                             + getTanggal()
                             + "\npesan : \n"
                             + replay
                             + "\n---------------------------------------------------------------------------------------------------";
-//                    server.append("\n-----------------\n"+replay + "\n-----------------\n");
+
+                    String query = "INSERT INTO `tubesSister`(`pengirim`, `penerima`, `tanggal`, `pesan`) VALUES ("
+                            + "'Client',"
+                            + "'Server',"
+                            + "'" + getTanggal() + "',"
+                            + "'" + replay + "');";
+                    dc.doQuery(query);
+
                     server.append(s);
                 } while (!"exit".equalsIgnoreCase(replay));
             } catch (Exception e) {
@@ -120,9 +133,34 @@ public class ControllerServer implements ActionListener, Runnable {
         }
     }
 
-    private String getTanggal() {  
-        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");  
-        Date date = new Date();  
-        return dateFormat.format(date);  
+    private String getTanggal() {
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    private void load() {
+        try {
+            ResultSet rs = dc.retrieveQuery("select * from tubesSister;");
+            while (rs.next()) {
+                if (rs.getString(1).equalsIgnoreCase("client")) {
+                    String s = "---------------------------------------------------------------------------------------------------\n"
+                            + "from : Client\n"
+                            + rs.getString(3)+"\n"
+                            + "pesan : \n"
+                            + rs.getString(4)+"\n"
+                            + "---------------------------------------------------------------------------------------------------\n";
+                    this.server.getShowMessage().append(s);
+//                    System.out.println(s);
+                }
+                else
+                {
+                    this.server.getShowMessage().append(rs.getString(4)+"\n");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

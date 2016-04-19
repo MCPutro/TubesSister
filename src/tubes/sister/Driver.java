@@ -5,6 +5,7 @@
  */
 package tubes.sister;
 
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import tubes.sister.View.View;
@@ -26,6 +27,19 @@ public class Driver {
         // TODO code application logic here
         View v = new View();
         Controller c = new Controller(v);
+        
+//        String hostName = InetAddress.getLocalHost().getHostName();
+//        System.out.println(hostName);
+//        InetAddress[] a = InetAddress.getAllByName(hostName);
+//        for (int i = 0; i < a.length; ) {
+//            if( a[i] instanceof Inet6Address){
+//                System.out.println(a[i]);
+//                break;
+//            }else
+//            {
+//                i++;
+//            }
+//        }
 //            System.out.println(getIP.getHostAddress());
 //            System.out.println(getIP.getHostName());
 //            InetAddress[] a = InetAddress.getAllByName("IFLAB03-165");

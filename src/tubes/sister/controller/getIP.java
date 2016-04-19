@@ -5,6 +5,7 @@
  */
 package tubes.sister.controller;
 
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -53,8 +54,14 @@ public class getIP {
 
             String host = InetAddress.getLocalHost().getHostName();
             InetAddress[] a = InetAddress.getAllByName(host);
-            String[] as = a[1].getHostAddress().split("%");
-            return as[0];
+            for (InetAddress inet : a) {
+                if (inet instanceof Inet6Address) {
+                    return inet.getHostAddress().split("%")[0];
+                }
+            }           
+//            String[] as = a[1].getHostAddress().split("%");
+//            return as[0];
+            return null;
         } catch (Throwable ex) {
             Logger.getLogger(percobaan.class.getName()).log(Level.SEVERE, null, ex);
             return null;
@@ -65,8 +72,9 @@ public class getIP {
     public static String getHostName(){
         try {
             String host = InetAddress.getLocalHost().getHostName();
-            InetAddress[] a = InetAddress.getAllByName(host);
-            return a[0].getHostName();
+            return host;
+//            InetAddress[] a = InetAddress.getAllByName(host);
+//            return a[0].getHostName();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

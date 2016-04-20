@@ -66,7 +66,7 @@ public class Controller implements ActionListener, FocusListener {
                     this.view.show(this.view.getPanel(), "client");
                 }
             } else if (a.equals(this.view.getOkeServer())) {//start server            
-                if (dc.doQuery("UPDATE `host` SET `port`=" + this.view.getPortServer().getText() + ",`status`=1 WHERE `ip` = '" + getIP.getHostAddress()+ "';") > 0) {
+                if (dc.doQuery("UPDATE `host` SET hostName = '"+getIP.getHostName()+"',`port`=" + this.view.getPortServer().getText() + ",`status`=1 WHERE `ip` = '" + getIP.getHostAddress()+ "';") > 0) {
                     this.view.setVisible(false);
                     new ControllerServer(new Server(), Integer.parseInt(this.view.getPortServer().getText()), dc);
                 } 

@@ -49,14 +49,17 @@ public class ControllerServer implements ActionListener, Runnable {
     }
 
     private void close() {
-        if (t.isAlive()) {
+        try {
+            if (t.isAlive()) {
 
-            t.interrupt();
-            JOptionPane.showMessageDialog(null, "Disconnect !");
-            String query = "UPDATE `host` SET `status`= 0 WHERE `ip` = '" + getIP.getHostAddress() + "';";
-            dc.doQuery(query);
-            this.server.dispose();
-            Controller c = new Controller(new View());
+                t.interrupt();
+                JOptionPane.showMessageDialog(null, "Disconnect !");
+                String query = "UPDATE `host` SET `status`= 0 WHERE `ip` = '" + getIP.getHostAddress() + "';";
+                dc.doQuery(query);
+                this.server.dispose();
+                Controller c = new Controller(new View());
+            }
+        } catch (Exception e) {
         }
 
     }
@@ -146,16 +149,14 @@ public class ControllerServer implements ActionListener, Runnable {
                 if (rs.getString(1).equalsIgnoreCase("client")) {
                     String s = "---------------------------------------------------------------------------------------------------\n"
                             + "from : Client\n"
-                            + rs.getString(3)+"\n"
+                            + rs.getString(3) + "\n"
                             + "pesan : \n"
-                            + rs.getString(4)+"\n"
+                            + rs.getString(4) + "\n"
                             + "---------------------------------------------------------------------------------------------------\n";
                     this.server.getShowMessage().append(s);
 //                    System.out.println(s);
-                }
-                else
-                {
-                    this.server.getShowMessage().append(rs.getString(4)+"\n");
+                } else {
+                    this.server.getShowMessage().append(rs.getString(4) + "\n");
                 }
             }
 
